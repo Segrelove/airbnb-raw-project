@@ -11,10 +11,10 @@ require 'faker'
 
 Reservation.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('reservations')
-User.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('users')
 Listing.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('listings')
+User.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('users')
 City.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('cities')
 
@@ -27,18 +27,23 @@ end
 end
 
 50.times do |x|
-  l = Listing.create(available_beds: rand(1..5), price: rand(40..1200), description: Faker::Company.bs, has_wifi: Faker::Boolean.boolean, welcome_message: "Welcome to my crib, MTV", city_id: rand(1..10))
+  l = Listing.create(available_beds: rand(1..5), price: rand(40..1200), description: Faker::Company.bs, has_wifi: Faker::Boolean.boolean, welcome_message: "Welcome to my crib, MTV", city_id: rand(1..10), user_id: rand(1..20))
 end
 
-20.times do |x|
-  p "#{rand(0..9)}#{Faker::Number.number(4)}"
+5.times do |x|
+  Reservation.create(
+    start_date: Faker::Date.forward(3), 
+    end_date: Faker::Date.forward(6), 
+    listing_id: rand(1..50), 
+    user_id: rand(1..20) 
+    )
 end
 
-# 5.times do |x|
-#   Reservation.create(
-#     start_date: Faker::Date.forward(3), 
-#     end_date: Faker::Date.forward(6), 
-#     listing_id: rand(1..50), 
-#     user_id: rand(1..20) 
-#     )
-# end
+5.times do |x|
+  Reservation.create(
+    start_date: Faker::Date.backward(10), 
+    end_date: Faker::Date.backward(6), 
+    listing_id: rand(1..50), 
+    user_id: rand(1..20)
+  )
+end
