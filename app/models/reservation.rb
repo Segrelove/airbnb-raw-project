@@ -17,9 +17,14 @@ class Reservation < ApplicationRecord
     self.end_date < Time.now
   end
 
+  def length
+  	self.end_date.to_i - self.start_date.to_i
+  end
+
   private
   def start_must_be_before_end_time
       errors.add(:start_date, "must be before end time") unless
           start_date < end_date
   end 
+  
 end
